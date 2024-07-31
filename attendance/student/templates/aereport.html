@@ -1,0 +1,353 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link icon="favion" href="/static/images/university.png" rel="icon">
+    <title>Aeronautical Engineering</title>
+
+    <style>
+        body {
+            background-image: url('/static/images/bg.jfif');
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        /*          Navbar            */
+
+
+        #nav {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            font-family: Georgia, serif;
+        }
+
+        @media(min-width: 950px) {
+            #nav-items {
+                display: flex;
+                justify-content: space-between;
+                margin-left: 400px;
+                gap: 30px;
+                padding: 0 10px;
+                font-size: 20px;
+                color: #f0f0f0;
+                animation: rightSideAni 1s ease forwards;
+                animation-delay: calc(.2s * var(--rightSideAni));
+            }
+        }
+
+        @media(max-width: 950px) {
+            #nav-items {
+                display: flex;
+                justify-content: space-between;
+                margin-left: 0;
+                padding: 0 10px;
+                font-size: 18px;
+                color: white;
+            }
+        }
+
+        .navbar-transparent {
+            background-color: transparent !important;
+        }
+
+        .navbar-transparent .dropdown-menu {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        #nav-title {
+            color: black;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 25px;
+            font-family: Georgia, serif;
+            margin-left: 20px;
+            animation: leftani 1s ease forwards;
+            animation-delay: calc(.2s * var(--leftani));
+        }
+
+        @media(max-width: 950px) {
+            #nav-title {
+                margin-left: 0;
+                font-size: 20px;
+            }
+        }
+
+        #nav-log {
+            color: black;
+            font-size: 20px;
+            text-decoration: none;
+            margin-top: 7px;
+        }
+
+        #nav-name {
+            color: black;
+            font-size: 20px;
+            text-decoration: none;
+            margin-top: 8px;
+        }
+
+
+        /*                 Report                   */
+
+
+        .fields {
+            display: flex;
+            flex-direction: rows;
+            gap: 20%;
+            margin: 0% 15% 0% 15%;
+        }
+
+        .fields>input,
+        select {
+            width: 30%;
+            height: 40px;
+            border-radius: 5px;
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin: 0% 0% 0% 0%;
+        }
+
+        button {
+            width: 30%;
+            height: 40px;
+            border-radius: 5px;
+            border: 1px solid black;
+            padding: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 20px;
+            margin: 0% 35% 0% 35%;
+        }
+
+        
+        /*               Table                 */
+        
+        
+        #student-list>h2 {
+            margin: 3% 10% 3% 10%;
+            text-align: center;
+        }
+
+        table {
+            width: auto;
+            margin: 0% 10% 0% 10%;
+            border-collapse: collapse;
+            color: black;
+        }
+
+        th,
+        td {
+            border: 2px solid black;
+            text-align: center;
+            font-size: 20px;
+            padding: 1px 10px 1px 10px;
+        }
+
+        input[type="radio"] {
+            margin: 0% 5% 0% 5%;
+        }
+
+        .submit {
+            width: 30%;
+            height: 40px;
+            border-radius: 5px;
+            border: 1px solid black;
+            padding: 5px;
+            background-color: #007bff;
+            color: white;
+            position: relative;
+            font-size: 20px;
+            margin: 0% 35% 0% 35%;
+        }
+
+        .home {
+            margin: 3% 35% 3% 35%;
+        }
+
+        .home>button>a {
+            text-decoration: none;
+            color: white;
+        }
+
+
+    </style>
+
+    {% load custom_filter %}
+</head>
+
+<body>
+
+    <!--                    Navbar                  -->
+
+
+  <nav class="navbar navbar-expand-lg navbar-transparent bg-body-tertiary" id="nav">
+    <div class="container-fluid">
+      <a class="navbar-brand" id="nav-title" href="/index/">Attendance Management System</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul id="nav-items" class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Report
+            </a>
+            {% if request.user.is_authenticated %}
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/cereport/">Computer Engineering</a></li>
+              <li><a class="dropdown-item" href="/itreport/">Information Technology</a></li>
+              <li><a class="dropdown-item" href="/mereport/">Mechanical Engineering</a></li>
+              <li><a class="dropdown-item" href="/cvreport/">Civil Engineering</a></li>
+              <li><a class="dropdown-item" href="/aereport/">Aeronautical Engineering</a></li>
+              <li><a class="dropdown-item" href="/eereport/">Electrical Engineering</a></li>
+            </ul>
+            {% else %}
+            <ul class="dropdown-menu" onclick="loginFirst()">
+              <li><a class="dropdown-item" href="">Computer Engineering</a></li>
+              <li><a class="dropdown-item" href="">Information Technology</a></li>
+              <li><a class="dropdown-item" href="">Mechanical Engineering</a></li>
+              <li><a class="dropdown-item" href="">Civil Engineering</a></li>
+              <li><a class="dropdown-item" href="">Aeronautical Engineering</a></li>
+              <li><a class="dropdown-item" href="">Electrical Engineering</a></li>
+            </ul>
+            {% endif %}
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Mark
+            </a>
+            {% if request.user.is_authenticated %}
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/ceone/">Computer Engineering</a></li>
+              <li><a class="dropdown-item" href="/itmark/">Information Technology</a></li>
+              <li><a class="dropdown-item" href="/memark/">Mechanical Engineering</a></li>
+              <li><a class="dropdown-item" href="/cvmark/">Civil Engineering</a></li>
+              <li><a class="dropdown-item" href="/aemark/">Aeronautical Engineering</a></li>
+              <li><a class="dropdown-item" href="/eemark/">Electrical Engineering</a></li>
+            </ul>
+            {% else %}
+            <ul class="dropdown-menu" onclick="loginFirst()">
+              <li><a class="dropdown-item" href="">Computer Engineering</a></li>
+              <li><a class="dropdown-item" href="">Information Technology</a></li>
+              <li><a class="dropdown-item" href="">Mechanical Engineering</a></li>
+              <li><a class="dropdown-item" href="">Civil Engineering</a></li>
+              <li><a class="dropdown-item" href="">Aeronautical Engineering</a></li>
+              <li><a class="dropdown-item" href="">Electrical Engineering</a></li>
+            </ul>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="/index/#contactForm">Contact</a>
+          <li class="">
+            <form class="" role="search">
+              <!-- Code for admin panel -->
+              {% if request.user.is_authenticated %}
+          <li>
+            <a class="nav-elements text-dark" id="nav-log" href="/logout/" type="submit">Logout</a>
+          </li>
+          {% else %}
+          <li>
+            <a class="nav-elements text-dark" id="nav-log" href="/login/" type="submit">Login</a>
+          </li>
+          {% endif %}
+
+          </form>
+          </li>
+          {% if request.user.is_authenticated %}
+          <li id="nav-name">
+            <a class="user-info-text nav-elements text-dark" id="nav-name"
+              style="color: black; white-space: nowrap;">Prof. {{ user.username }}</a>
+          </li>
+          {% else %}
+          <li>
+            <a class="user-info-text nav-elements text-dark" id="nav-name"
+              style="color: black; white-space: nowrap;"></a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+    <!--                Body                  -->
+
+    {% load custom_filter %}
+    <div id="student-list">
+        <h2>Student List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">Roll Number</th>
+                    <th rowspan="2">Student Name</th>
+                    {% for date in distinct_dates %}
+                    <th colspan="3">{{ date }}</th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for date in distinct_dates %}
+                    <th>Prof.. Name</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.roll_number }}</td>
+                    <td>{{ student.name }}</td>
+                    {% for date in distinct_dates %}
+                    <td>
+                        {% with attendance=student_attendance|get_item:student.id|get_item:date %}
+                        {{ attendance.username|default:"N/A" }}
+                        {% endwith %}
+                    </td>
+                    <td>
+                        {% with attendance=student_attendance|get_item:student.id|get_item:date %}
+                        {{ attendance.time|default:"N/A" }}
+                        {% endwith %}
+                    </td>
+                    <td>
+                        {% with attendance=student_attendance|get_item:student.id|get_item:date %}
+                        {{ attendance.status|default:"Not Recorded" }}
+                        {% endwith %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="home">
+        <button><a href="/index/">Home</a></button>
+    </div>
+
+    
+
+</body>
+
+</html>
