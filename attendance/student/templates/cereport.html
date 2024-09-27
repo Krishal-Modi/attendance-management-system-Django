@@ -425,17 +425,22 @@
         <table>
             <thead>
                 <tr>
-                    <th rowspan="2">Roll Number</th>
-                    <th rowspan="2">Student Name</th>
+                    <th>Roll Number</th>
+                    <th>Student Name</th>
                     {% for date in distinct_dates %}
-                    <th colspan="3">{{ date }}</th>
+                    <th>{{ date }}</th>
                     {% endfor %}
                 </tr>
                 <tr>
+                    <th colspan="2"></th> <!-- Empty cells to keep layout aligned -->
                     {% for date in distinct_dates %}
-                    <th>Prof.. Name</th>
-                    <th>Time</th>
-                    <th>Status</th>
+                    <th>
+                        <!-- Display professor name and time only once per date -->
+                        {% with attendance=student_attendance|get_item:students.0.id|get_item:date %}
+                            <div>Prof. Name: {{ attendance.username|default:"N/A" }}</div>
+                            <div>({{ attendance.time|default:"N/A" }})</div>
+                        {% endwith %}
+                    </th>
                     {% endfor %}
                 </tr>
             </thead>
@@ -447,16 +452,6 @@
                     {% for date in distinct_dates %}
                     <td>
                         {% with attendance=student_attendance|get_item:student.id|get_item:date %}
-                        {{ attendance.username|default:"N/A" }}
-                        {% endwith %}
-                    </td>
-                    <td>
-                        {% with attendance=student_attendance|get_item:student.id|get_item:date %}
-                        {{ attendance.time|default:"N/A" }}
-                        {% endwith %}
-                    </td>
-                    <td>
-                        {% with attendance=student_attendance|get_item:student.id|get_item:date %}
                         {{ attendance.status|default:"Not Recorded" }}
                         {% endwith %}
                     </td>
@@ -466,7 +461,9 @@
             </tbody>
         </table>
     </div>
+    
 
+    
     <div class="home">
         <button><a href="/index/">Home</a></button>
     </div>
