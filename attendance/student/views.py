@@ -128,7 +128,8 @@ def get_student_attendance(student, distinct_dates):
 def cereport(request):
     students = Student.objects.all()
     distinct_dates = StudentAttendance.objects.values_list('date', flat=True).distinct()
-    
+
+    # Prepare attendance records for each student and date
     student_attendance = {}
     for student in students:
         attendance_records = StudentAttendance.objects.filter(student=student)
@@ -141,7 +142,11 @@ def cereport(request):
             }
         student_attendance[student.id] = attendance_data
     
-    return render(request, 'cereport.html', {'students': students, 'distinct_dates': distinct_dates, 'student_attendance': student_attendance})
+    return render(request, 'cereport.html', {
+        'students': students,
+        'distinct_dates': distinct_dates,
+        'student_attendance': student_attendance,
+    })
 
 
 
@@ -194,7 +199,8 @@ def itstudent_list(request):
 def itreport(request):
     students = Studentit.objects.all()
     distinct_dates = StudentAttendanceit.objects.values_list('date', flat=True).distinct()
-    
+
+    # Prepare attendance records for each student and date
     student_attendance = {}
     for student in students:
         attendance_records = StudentAttendanceit.objects.filter(student=student)
@@ -207,8 +213,11 @@ def itreport(request):
             }
         student_attendance[student.id] = attendance_data
     
-    return render(request, 'itreport.html', {'students': students, 'distinct_dates': distinct_dates, 'student_attendance': student_attendance})
-
+    return render(request, 'itreport.html', {
+        'students': students,
+        'distinct_dates': distinct_dates,
+        'student_attendance': student_attendance,
+    })
 
 
 # Mechanical Engineering
@@ -260,7 +269,8 @@ def mestudent_list(request):
 def mereport(request):
     students = Studentme.objects.all()
     distinct_dates = StudentAttendanceme.objects.values_list('date', flat=True).distinct()
-    
+
+    # Prepare attendance records for each student and date
     student_attendance = {}
     for student in students:
         attendance_records = StudentAttendanceme.objects.filter(student=student)
@@ -273,8 +283,11 @@ def mereport(request):
             }
         student_attendance[student.id] = attendance_data
     
-    return render(request, 'mereport.html', {'students': students, 'distinct_dates': distinct_dates, 'student_attendance': student_attendance})
-
+    return render(request, 'mereport.html', {
+        'students': students,
+        'distinct_dates': distinct_dates,
+        'student_attendance': student_attendance,
+    })
 
 
 # Civil Engineering
@@ -326,7 +339,8 @@ def cvstudent_list(request):
 def cvreport(request):
     students = Studentcv.objects.all()
     distinct_dates = StudentAttendancecv.objects.values_list('date', flat=True).distinct()
-    
+
+    # Prepare attendance records for each student and date
     student_attendance = {}
     for student in students:
         attendance_records = StudentAttendancecv.objects.filter(student=student)
@@ -339,8 +353,11 @@ def cvreport(request):
             }
         student_attendance[student.id] = attendance_data
     
-    return render(request, 'cvreport.html', {'students': students, 'distinct_dates': distinct_dates, 'student_attendance': student_attendance})
-
+    return render(request, 'cvreport.html', {
+        'students': students,
+        'distinct_dates': distinct_dates,
+        'student_attendance': student_attendance,
+    })
 
 
 # Aeronautical Engineering
@@ -392,7 +409,8 @@ def aestudent_list(request):
 def aereport(request):
     students = Studentae.objects.all()
     distinct_dates = StudentAttendanceae.objects.values_list('date', flat=True).distinct()
-    
+
+    # Prepare attendance records for each student and date
     student_attendance = {}
     for student in students:
         attendance_records = StudentAttendanceae.objects.filter(student=student)
@@ -405,8 +423,11 @@ def aereport(request):
             }
         student_attendance[student.id] = attendance_data
     
-    return render(request, 'aereport.html', {'students': students, 'distinct_dates': distinct_dates, 'student_attendance': student_attendance})
-
+    return render(request, 'aereport.html', {
+        'students': students,
+        'distinct_dates': distinct_dates,
+        'student_attendance': student_attendance,
+    })
 
 
 # Electrical Engineering
@@ -458,7 +479,8 @@ def eestudent_list(request):
 def eereport(request):
     students = Studentee.objects.all()
     distinct_dates = StudentAttendanceee.objects.values_list('date', flat=True).distinct()
-    
+
+    # Prepare attendance records for each student and date
     student_attendance = {}
     for student in students:
         attendance_records = StudentAttendanceee.objects.filter(student=student)
@@ -471,5 +493,8 @@ def eereport(request):
             }
         student_attendance[student.id] = attendance_data
     
-    return render(request, 'eereport.html', {'students': students, 'distinct_dates': distinct_dates, 'student_attendance': student_attendance})
-
+    return render(request, 'eereport.html', {
+        'students': students,
+        'distinct_dates': distinct_dates,
+        'student_attendance': student_attendance,
+    })  
