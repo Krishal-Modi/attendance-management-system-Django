@@ -1,0 +1,1587 @@
+------------------------------------Lecture-2--------------------------------------
+
+Start using cmd
+1) D:
+2) cd Django\
+3) cd env\
+4) cd Scripts\
+5) activate
+
+Environment will be activated
+
+For Downloading Django write "pip install Django" in cmd
+
+6) For creating a project folder 
+   (env) D:\Django\env\Scripts>django-admin startproject core
+	-- Core is the project name--
+
+7) For openning core : cd core\
+8) "code ." (for opening project in vscode)
+
+------------------------------------Lecture-3--------------------------------------
+
+1) Every time you open the terminal cd Django\env\Scripts\
+2) D:\Django\env\Scripts>activate
+3) Creating first App in Django
+
+4) (env) D:\Django\env\Scripts\core>python manage.py startapp appname  
+	--app will create in vs code--
+	--app is a folder which consist of admin , app, model ,test--
+
+5) (env) D:\Django\env\Scripts\core>python manage.py runserver
+	--By this command the server will created and we can access using the browser--
+	--the port will be given in cmd http://127.0.0.1:8000/--
+	--can check from there--
+
+6) (env) D:\Django\env\Scripts\core>python manage.py runserver 0.0.0.0:5000
+	--Then We can run on port 5000, for running on the desired server--
+
+7) core=>setting.py=>in installed apps add the app u have created=>home,accounts in list of INTERNAL_APPS
+	--OR--
+	EXTERNAL_APPS=['home','accounts']=>then
+	INSTALLED_APPS += EXTERNAL_APPS (so all app can run)
+
+
+------------------------------------Lecture-4--------------------------------------
+
+All the logical part is written under the 'views.py' of our app (like how and what to 
+respond to user)
+view are can be either function based or class based now we are using function view.
+
+
+
+*****) views.py
+
+	from django.shortcuts import render
+
+	# Create your views here.
+	from django.http import HttpResponse
+
+	def home(request):
+    		return HttpResponse("Hey I am a Django Server.")
+
+	--then Add path to urls.py--
+
+*****) urls.py
+
+	from django.contrib import admin
+	from django.urls import path
+	from home.views import *
+
+	urlpatterns = [
+	    path('' ,home ,name="home"),
+
+	    path('admin/', admin.site.urls),
+	]
+
+
+
+then open server in browser "http://127.0.0.1:8000/"
+(views.py => logic
+settings.py => add app name
+urls.py => add path)
+
+we can also write <h1> and tags in views.py 
+like(return HttpResponse("<h1>Hey I am a Django Server.<h1>"))
+
+
+2) After adding more on the page
+
+*****) views.py
+
+	from django.shortcuts import render
+
+	# Create your views here.
+	from django.http import HttpResponse
+
+	def home(request):
+    		return HttpResponse("Hey I am a Django Server.")
+
+	def success_page(request):
+		return HttpResponse("<h1>Hey This is a success Page.</h1>")
+
+*****) urls.py
+
+	from django.contrib import admin
+	from django.urls import path
+	from home.views import *
+
+	urlpatterns = [
+	    path('' ,home ,name="home"),
+
+	    path('success-page/', success_page, name="success_page"),
+
+	    path('admin/', admin.site.urls),
+	]
+
+
+it is compulsory to give the name templates in the app folder
+
+3) How to return HTML using Django
+make the directory in home folder name it template => index.html
+
+
+*****) views.py
+
+	from django.shortcuts import render
+
+	# Create your views here.
+	from django.http import HttpResponse
+
+	def home(request):
+    		return render(request, "index.html")
+
+	def success_page(request):
+		return HttpResponse("<h1>Hey This is a success Page.</h1>")
+
+*****) urls.py
+
+	from django.contrib import admin
+	from django.urls import path
+	from home.views import *
+
+	urlpatterns = [
+	    path('' ,home ,name="home"),
+
+	    path('success-page/', success_page, name="success_page"),
+
+	    path('admin/', admin.site.urls),
+	]
+
+
+------------------------------------Lecture-5--------------------------------------
+
+1) Now How To print the data from server side to the webpage
+	--i.e The logic written in views.py will be printed to index.html--
+	
+*****) views.py
+		from django.shortcuts import render
+
+	# Create your views here.
+	from django.http import HttpResponse
+
+	def home(request):
+    
+    		peoples = [
+        		{'name' : 'Krishal Modi', 'age' : 20},
+        		{'name' : 'Romil Modi', 'age' : 21},
+        		{'name' : 'Vishwajeet Muthe', 'age' : 22},
+        		{'name' : 'Vansh Mehta', 'age' : 23},
+        		{'name' : 'Aayush Muktawat', 'age' : 24}
+    		]
+
+    		for people in peoples:
+        		print(people) # Print in cmd
+
+		return render(request, "index.html", context = {'peoples' : peoples})
+
+
+	def success_page(request):
+    		print("*" * 10)
+	    	return HttpResponse("<h1>Hey This is a success Page.</h1>")
+
+
+*****) index.html
+
+	<html lang="en">
+	<head>
+    		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    		<meta charset="UTF-8">
+    		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    		<title>Django</title>
+    		<style>
+        		table, th, td{
+            			border: 1px solid black;
+        		}
+    		</style>
+	</head>
+
+	<body>
+
+	    <h1>The Template is written in Django Server</h1>
+
+	    <table class="container">
+        	<tr>
+            	<th>Sr. no.</th>
+            	<th>Name</th>
+            	<th>Age</th>
+ 		<th>Can Vote</th>
+	       	</tr>
+
+	        {% for people in peoples %}
+
+	        <tr>
+        	    <td>{{forloop.counter}}</td>
+            	    <td>{{people.name}}</td>
+                    <td>{{people.age}}</td>
+        	    <td style="background-color: red">
+                	{% if people.age >= 18 %}
+                	👍
+                	{% else %}
+                	👎
+                	{% endif %}
+	            </td>
+		</tr>
+
+	        {% endfor %}
+
+	    </table>
+
+    	<script>
+        	console.log("Hey Django");
+    	</script>
+
+	</body>
+	</html>
+
+Note : {{text|truncatechars: 80}} : is used to make the limit of words while printing in 
+-----   index.html
+
+2) Another Method 
+
+*****) Views.py
+
+	vegetables = ['pumpkin', 'tomato', 'potato']
+
+*****) index.html
+
+	<p>
+        {% if "cucumber" in vegetables %}
+            Yes Available
+        {% elif "tomato" in vegetables %}
+            Yes Available
+        {% else %}
+            No Available
+        {% endif %}
+    	</p>
+
+3) External Links in Html can be given as 
+	<a href="/contact/">Contact</a>
+
+
+4) Shortcut Instead of repeating the code for multiple times we can use 
+	
+
+*****) base.html (outside the home folder)
+
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+    	<meta charset="UTF-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<title>{{page}}</title>
+	<style>
+    	table, th, td{
+        	border: 1px solid black;
+    	}
+	</style>
+	</head>
+
+
+	<body>
+
+	    {% block start %}
+
+	    {% endblock %}
+
+	    <script>
+        	console.log("Hey Django");
+    	</script>
+
+	</body>
+	</html>
+
+
+*****) index.html
+
+	{% extends "base.html" %}
+	{% block start %}
+
+
+<h1>This is index Page</h1>
+
+    <a href="/contact/">Contact</a>
+    <a href="/about/">About</a>
+
+
+    <table class="container">
+        <tr>
+            <th>Sr. no.</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Can Vote</th>
+        </tr>
+
+        {% for people in peoples %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{people.name}}</td>
+            <td>{{people.age}}</td>
+            <td style="background-color: red">
+                {% if people.age >= 18 %}
+                👍
+                {% else %}
+                👎
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <p>
+        {% if "cucumber" in vegetables %}
+            Yes Available
+        {% elif "tomato" in vegetables %}
+            Yes Available
+        {% else %}
+            Not Available
+        {% endif %}
+
+        {{vegetables.firstof}}
+    </p>
+
+   {% endblock %}
+
+
+
+*****) about.html
+
+{% extends "base.html" %}
+{% block start %}
+
+    <h1>This is about page</h1>
+
+    <a href="/contact/">Contact</a>|
+    <a href="/">Home</a>
+
+
+    {% endblock %}
+
+similarly in contact.html
+
+
+*****) views.py
+
+from django.shortcuts import render
+
+# Create your views here.
+from django.http import HttpResponse
+
+def home(request):
+    
+    peoples = [
+        {'name' : 'Krishal Modi', 'age' : 10},
+        {'name' : 'Romil Modi', 'age' : 21},
+        {'name' : 'Vishwajeet Muthe', 'age' : 12},
+        {'name' : 'Vansh Mehta', 'age' : 23},
+        {'name' : 'Aayush Muktawat', 'age' : 16}
+    ]
+
+    vegetables = ['pumpkin', 'tomato', 'potato']
+
+    for people in peoples:
+        print(people) # Print in cmd
+    return render(request, "home/index.html", context = {'page' : 'Django 2023 Tutorial' , 'peoples' : peoples}
+    )
+
+def about(request):
+    context = {'page' : 'About'}
+    return render(request, "home/about.html", context)
+
+def contact(request):
+    context = {'page' : 'Contact'}
+    return render(request, "home/contact.html", context)
+
+def success_page(request):
+    print("*" * 10)
+    return HttpResponse("<h1>Hey This is a success Page.</h1>")
+
+
+
+*****) urls.py
+
+urlpatterns = [
+    path('', home , name="home"),
+    path('contact/', contact , name="contact"),
+    path('about/', about , name="about"),
+
+    path('success-page/', success_page, name="success_page"),
+
+    path('admin/', admin.site.urls),
+]
+
+ -- add the paths in urls.py --
+
+
+------------------------------------Lecture-6--------------------------------------
+			     -- Models And Migration --
+
+1) Schema in models.py within our app
+   can be written as 
+ 
+class Student(models.Model):
+    # id = models.AutoField()
+    name = models.CharField(max_length = 100)
+    age = models.IntegerField()
+    email = models.EmailField()
+    address = models.TextField()
+    image = models.ImageField()
+    file = models.FileField()
+
+Django automatically adds "id = models.AutoField()"
+
+2) 
+*****) Models.py
+	from django.db import models
+
+# Create your models here.
+
+
+class Student(models.Model):
+    name = models.CharField(max_length = 100)
+    age = models.IntegerField()
+    email = models.EmailField()
+    address = models.TextField(null=True, blank=True) # null= TRUE means whatever we pass will be accepted
+    image = models.ImageField()
+    file = models.FileField()
+
+
+class Product(models.Model):
+    pass
+
+
+3)	Then in cmd 
+	>> python manage.py makemigrations
+	-- it will show the made class in models.py file and in migration folder
+	   will create 0001_initial.py (should not be delete by u)
+
+	doing it again >> python manage.py makemigrations
+	another file will be created 0002_product_
+
+4) Then in cmd 
+	>>python manage.py migration
+	then we can reopen the DB browser then it will show us all the file 
+	-- if wont then reopen the file --
+
+5) Then In DB Browser 
+	--django_migrations=> Browse table will show all migrations 
+
+6) Dont Delete Migrations otherwise the database will conflict 
+
+------------------------------------Lecture-7--------------------------------------
+
+1) Django Shell : act as a bridge for easy access of Django resources (DB,etc)
+	--(env) D:\Django\env\Scripts\core> python manage.py shell--
+
+2) once entering the shell
+	-from home.models import *
+	-student = Student(name="Krishal", age=20, email="krishalmodi@gmail.com", address="Shahibaug")
+
+	OR
+
+	student = Student.objects.create(name="Krishal", age=20, email="krishalmodi@gmail.com", address="Shahibaug")
+	--objects is a model manager--
+
+3) >>>student
+	--<Student: Student object (None)> # none will change as the number of entries
+
+4) student.save()
+
+5) Student.objects.all()
+	<QuerySet [<Student: Student object (1)>, <Student: Student object (2)>]>
+
+6) For the data 
+	>>> Student.objects.all()[0]
+	<Student: Student object (1)>
+	>>> Student.objects.all()[0].name
+	'Krishal'
+	>>> Student.objects.all()[0].address
+	'ahmedabad'
+
+7) utils.py create in templates dir
+	>>> from home.utils import *
+	>>> run_this_function()                     
+	>>> run_this_function() 
+	Function Started
+	Function Executed 
+
+------------------------------------Lecture-8--------------------------------------
+
+				--CRUD Operations--
+
+CRUD => Create Read Update Delete
+
+1) Make a new model in model.py file
+
+*****) Models.py
+from django.db import models
+
+# Create your models here.
+
+class Student(models.Model):
+    name = models.CharField(max_length = 100)
+    age = models.IntegerField()
+    email = models.EmailField(null=True, blank=True)
+    address = models.TextField(null=True, blank=True) # null= TRUE means whatever we pass will be accepted    
+    
+class Car(models.Model):
+    car_name = models.CharField(max_length = 500)
+    speed = models.IntegerField(default=50)
+
+
+*****) cmd
+	repeat the same process 
+	1) python manage.py makemigrations
+	2) python manage.py migrate
+	3) python manage.py shell 
+
+	Then in The shell 
+	
+	-- Create --
+	
+	>>> from home.models import *
+>>> car = Car()
+>>> car.save()
+>>> car
+<Car: Car object (1)>
+>>> car = Car(car_name = "Nexon", speed=110)
+>>> car.save()
+>>> car
+<Car: Car object (2)>
+>>> car = Car(car_name = "Xuv", speed=150)
+>>> car.save()
+>>> car
+<Car: Car object (3)>
+>>> Car.objects.create(car_name = "Renault Kiger", speed=80)
+<Car: Car object (4)>
+>>> car_dict = {"car_name" : "Alto", "speed" : 50}
+>>> car_dict
+{'car_name': 'Alto', 'speed': 50}
+>>> Car.objects.create(**car_dict)
+<Car: Car object (5)>
+
+	-- Read --
+
+In CMd
+>>> cars = Car.objects.all()
+>>> cars
+<QuerySet [<Car: Car object (1)>, <Car: Car object (2)>, <Car: Car object (3)>, <Car: Car object (4)>, <Car: Car object (5)>]>
+>>> exit()	
+
+*****) Models.py
+
+class Car(models.Model):
+    car_name = models.CharField(max_length = 500)
+    speed = models.IntegerField(default=50)
+
+    def __str__(self) -> str:
+        return self.car_name
+    
+    
+*****) In Cmd
+	
+>>> cars = Car.objects.all()
+>>> cars
+<QuerySet [<Car: >, <Car: Nexon>, <Car: Xuv>, <Car: Renault Kiger>, <Car: Alto>]>
+>>> for car in cars:
+...     print(f"{car.id}The car name is {car.car_name} with high speed of {car.speed}")
+...
+1The car name is  with high speed of 50
+2The car name is Nexon with high speed of 110
+3The car name is Xuv with high speed of 150
+4The car name is Renault Kiger with high speed of 80
+5The car name is Alto with high speed of 50
+>>> car = Car.objects.get(id = 1)
+>>> car
+>>> car = Car.objects.filter(id = 10) # return nothing
+
+
+	-- UPDATE --
+
+In Cmd
+
+>>> Car.objects.filter(id = 1).update(car_name = "Creta Dark Edition")
+1
+>>> Car.objects.all()
+<QuerySet [<Car: Creta Dark Edition>, <Car: Nexon>, <Car: Xuv>, <Car: Renault Kiger>, <Car: Alto>]>
+>>> Car.objects.filter(id = 2).update(car_name = "Nexon Dark Edition")
+1
+
+
+	-- DELETE --
+
+>>> Car.objects.get(id = 1).delete() // Delete 1st only
+(1, {'home.Car': 1})
+>>> Car.objects.all()
+<QuerySet [<Car: Nexon Dark Edition>, <Car: Xuv>, <Car: Renault Kiger>, <Car: Alto>]>
+>>> Car.objects.get(id = 2).delete()
+(1, {'home.Car': 1})
+>>> Car.objects.all()
+<QuerySet [<Car: Xuv>, <Car: Renault Kiger>, <Car: Alto>]>
+>>> Car.objects.all().delete() // Delete all
+(0, {})
+>>>
+
+------------------------------------Lecture-9--------------------------------------
+			     Create Recipe Project
+
+1) create a new app by >>> python manage.py startapp vege
+2) add the app in setting.py to make it run
+3) In Models.py create model 
+*****) from django.db import models
+
+# Create your models here.
+
+class Receipe(models.Model):
+    receipe_name = models.CharField(max_length=100)
+    receipe_description = models.TextField()
+    receipe_image = models.ImageField(upload_to="receipe")
+
+	
+4) >>>python manage.py makemigrations
+5) >>>python manage.py migrate
+6) add this code in views.py
+
+	from django.shortcuts import render
+
+	# Create your views here.
+
+
+def receipes(request):
+    return render(request, 'receipes.html')
+
+7)  Create templates in vege => then make receipes.html
+
+8) In urls.py add
+	
+from vege.views import *
+
+
+urlpatterns = [
+    path('', home , name="home"),
+    path('receipes/', home, name='home')
+
+**) So it will become
+
+*****) urls.py
+from django.contrib import admin
+from django.urls import path
+from home.views import *
+from vege.views import *
+
+
+urlpatterns = [
+    path('', home , name="home"),
+    path('receipes/', home, name='home')
+
+    path('contact/', contact , name="contact"),
+    path('about/', about , name="about"),
+
+
+
+    path('success-page/', success_page, name="success_page"),
+
+    path('admin/', admin.site.urls),
+]
+
+
+
+*****) receipe.html (Adding a form)
+
+{% extends "base.html" %}
+
+{% block start %}
+
+<div class="container mt-5 card p-3 shadow-lg">
+
+    <form class="col-6 mx-auto">
+        <h2>Add Receipe</h2>
+        <hr>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Receipe Name</label>
+          <input type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Receipe Description</label>
+          <textarea class="form"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="exampleInputPassword1" for="form-label">Receipe Image</label>
+          <input type="file" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Add Recipe</button>
+      </form>
+
+</div>
+
+{% endblock %}
+
+9) Now How to take data from frontend to backend(i.e views.py)
+
+*****) IN HTML
+
+{% extends "base.html" %}
+
+{% block start %}
+
+<div class="container mt-5 card p-3 shadow-lg">
+
+    <form class="col-6 mx-auto" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Add Receipe</h2>
+        <hr>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Receipe Name</label>
+          <input name="receipe_name" required type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Receipe Description</label>
+          <textarea name="receipe_description" required class="form"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="exampleInputPassword1" for="form-label">Receipe Image</label>
+          <input name="receipe_image" type="file" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Add Recipe</button>
+      </form>
+
+</div>
+
+{% endblock %}
+
+
+
+*****) views.py
+
+from django.shortcuts import render
+
+# Create your views here.
+
+
+def receipes(request):
+    if request.method == "POST":
+        
+        data = request.POST
+        receipe_image = request.FILES.get('receipe_image')
+        receipe_name = data.get('receipe_name')
+        receipe_description = data.get('receipe_description')
+
+        print(receipe_description)
+        print(receipe_name)
+        print(receipe_image)
+
+    return render(request, 'receipes.html')
+
+NOTE : This will take data from frontend and show the input in the cmd 
+
+
+10) Now Saving the data from frontend to our model(i.e database)
+
+*****) In HTML keep the same code 
+
+make change in views.py
+
+*****) views.py
+
+from django.shortcuts import render, redirect
+from .models import *
+# Create your views here.
+
+
+def receipes(request):
+    if request.method == "POST":
+        
+        data = request.POST
+        receipe_image = request.FILES.get('receipe_image')
+        receipe_name = data.get('receipe_name')
+        receipe_description = data.get('receipe_description')
+
+
+        # Fetching from frontend and showing on cmd
+        # print(receipe_description)
+        # print(receipe_name)
+        # print(receipe_image)
+
+
+        # now storing it to backend
+        Receipe.objects.create(
+            receipe_image = receipe_image,
+            receipe_description = receipe_description,
+            receipe_name = receipe_name
+        )
+
+        return redirect('receipes')
+
+    return render(request, 'receipes.html')
+
+11) Make this change in admin.py to see the stored data
+
+*****) Admin.py
+
+from django.contrib import admin
+
+# Register your models here.
+
+from .models import *
+
+admin.site.register(Receipe)
+
+
+Then In CMD we can see
+
+(env) D:\Django\env\Scripts\core>python manage.py shell
+>>> from vege.models import *
+>>> Receipe.objects.all()
+<QuerySet [<Receipe: Receipe object (1)>]>
+>>> Receipe.objects.all()[0].receipe_description
+"lime and lemony treat. A delicious classic.best-pudding-recipes-4A sweet milk based pudding rich in taste and flavor.6. Gooey Chocolate PuddingThis one is a dream come true for all chocoholics. If you're looking for the best way to treat yourself, then this is it.best-pudding-recipes-5Serve this "
+
+
+**) Also the receipe folder will be created in our project (images)
+
+
+
+------------------------------------Lecture-10--------------------------------------
+			       	  -- Part - 2 --
+
+
+How to views the table
+
+1)
+*****) In HTML add
+
+<table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Sr. No.</th>
+            <th scope="col">Receipe_name</th>
+            <th scope="col">Receipe_description</th>
+            <th scope="col">Image</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for receipe in receipes %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{ receipe.receipe_name }}</td>
+            <td>{{ receipe.receipe_description }}</td>
+            <td>{{ receipe.receipe_image }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+
+*****) views.py
+
+from django.shortcuts import render, redirect
+from .models import *
+# Create your views here.
+
+
+def receipes(request):
+    if request.method == "POST":
+        
+        data = request.POST
+        receipe_image = request.FILES.get('receipe_image')
+        receipe_name = data.get('receipe_name')
+        receipe_description = data.get('receipe_description')
+
+
+        # Fetching from frontend and showing on cmd
+        # print(receipe_description)
+        # print(receipe_name)
+        # print(receipe_image)
+
+
+        # now storing it to backend
+        Receipe.objects.create(
+            receipe_image = receipe_image,
+            receipe_description = receipe_description,
+            receipe_name = receipe_name
+        )
+
+        return redirect('receipes')
+
+    queryset = Receipe.objects.all()
+    context = {'receipes' : queryset}
+    return render(request, 'receipes.html', context)
+
+
+From this code the output will be printed on the index.html file with the table
+
+
+2) For Printing the image in the index.html file 
+Add this code in Settings.py
+
+*****) settings.py
+
+import os
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
+
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+STATICFILES_DIR = {
+    os.path.join(BASE_DIR, "public/static")
+}
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public/static')
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'public/static')
+MEDIA_URL = '/media/'
+
+
+then in urls.py
+
+*****) urls.py
+
+from django.contrib import admin
+from django.urls import path
+from home.views import *
+from vege.views import *
+from django.conf.urls.static import static
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+urlpatterns = [
+    path('', home , name="home"),
+    path('receipes/', receipes, name='receipes'),
+
+    path('contact/', contact , name="contact"),
+    path('about/', about , name="about"),
+
+
+
+    path('success-page/', success_page, name="success_page"),
+
+    path('admin/', admin.site.urls),
+]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+    
+urlpatterns += staticfiles_urlpatterns()
+
+
+After adding this code the public named new dir will be created outside our app in which all the images will be stored
+
+
+2) Deleting the operations and the image will appear on the index.html method for that make changes in 
+
+
+*****) urls.py (add path)
+
+
+    path('delete-receipe/<id>/', delete_receipe, name="delete_receipe"),
+
+
+**) /<id>/ means dynamic url as the user will click delete on any object that will deleted that means every item has an id
+
+
+
+*****) receipe.html
+
+{% extends "base.html" %}
+
+{% block start %}
+
+<div class="container mt-5 card p-3 shadow-lg">
+
+    <form class="col-6 mx-auto" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Add Receipe</h2>
+        <hr>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Receipe Name</label>
+          <input name="receipe_name" required type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Receipe Description</label>
+          <textarea name="receipe_description" required class="form"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="exampleInputPassword1" for="form-label">Receipe Image</label>
+          <input name="receipe_image" type="file" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Add Recipe</button>
+      </form>
+
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Sr. No.</th>
+            <th scope="col">Receipe_name</th>
+            <th scope="col">Receipe_description</th>
+            <th scope="col">Image</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for receipe in receipes %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{receipe.receipe_name}}</td>
+            <td>{{receipe.receipe_description}}</td>
+            <td>
+              <img src="/media/{{receipe.receipe_image}}" height="100px" width="100px"> </td>
+            <td>
+              <a href="/delete-receipe/{{receipe.id}}" class="btn btn-danger">Delete</a>
+            </td>    
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+
+</div>
+
+{% endblock %}
+
+
+
+*****) views.py (add this function for deleting the items)
+
+
+from django.http import HttpResponse
+
+def delete_receipe(request, id):
+    queryset = Receipe.objects.get(id=id)
+    queryset.delete()
+    return redirect('/receipes/')
+
+
+
+------------------------------------Lecture-11--------------------------------------
+				   -- Part 3 --
+				   Update The DB
+
+1) For bringing update functionality make the following changes and also the input box for searching the recipe
+
+*****) urls.py (add this path)
+
+path('update-receipe/<id>/', update_receipe, name="update_receipe"),
+
+
+*****) receipes.html
+
+{% extends "base.html" %}
+
+{% block start %}
+
+<div class="container mt-5 card p-3 shadow-lg">
+
+    <form class="col-6 mx-auto" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Add Receipe</h2>
+        <hr>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Receipe Name</label>
+          <input name="receipe_name" required type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Receipe Description</label>
+          <textarea name="receipe_description" required class="form"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="exampleInputPassword1" for="form-label">Receipe Image</label>
+          <input name="receipe_image" type="file" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Add Recipe</button>
+      </form>
+
+
+      <hr>
+      <div class="mt-5">
+        <div class="mx-auto col-6">  
+          <form>
+
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Search Food</label>
+            <input name="search" type="text" class="form-control">
+             </div>
+             <button type="submit" class="btn btn-primary">Search</button>
+         
+            </form>
+          
+        </div>
+      </div>
+
+      <table class="table mt-5">
+        <thead>
+          <tr>
+            <th scope="col">Sr. No.</th>
+            <th scope="col">Receipe_name</th>
+            <th scope="col">Receipe_description</th>
+            <th scope="col">Image</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for receipe in receipes %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{receipe.receipe_name}}</td>
+            <td>{{receipe.receipe_description}}</td>
+            <td>
+              <img src="/media/{{receipe.receipe_image}}" height="100px" width="100px"> </td>
+            <td>
+              <a href="/delete-receipe/{{receipe.id}}" class="btn btn-danger m-2">Delete</a>
+              <a href="/update-receipe/{{receipe.id}}" class="btn btn-success">Update</a>
+            </td>    
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+
+</div>
+
+{% endblock %}
+
+
+
+*****) update_receipes.html (create a new file)
+
+{% extends "base.html" %}
+
+{% block start %}
+
+<div class="container mt-5 card p-3 shadow-lg">
+
+    <form class="col-6 mx-auto" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Update Receipe</h2>
+        <hr>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Receipe Name</label>
+          <input name="receipe_name" value="{{receipe.receipe_name}}" required type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Receipe Description</label>
+          <textarea name="receipe_description" required class="form">value="{{receipe.receipe_description}}"</textarea>
+        </div>
+        <div class="mb-3">
+          <label class="exampleInputPassword1" for="form-label">Receipe Image</label>
+          <input name="receipe_image" type="file" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Update Recipe</button>
+      </form>
+
+
+
+
+</div>
+
+{% endblock %}
+
+
+
+
+*****) views.py (new function created and few line added in the previous code)
+
+from django.shortcuts import render, redirect
+from .models import *
+from django.http import HttpResponse
+# Create your views here.
+
+
+def receipes(request):
+    if request.method == "POST":
+        
+        data = request.POST
+        receipe_image = request.FILES.get('receipe_image')
+        receipe_name = data.get('receipe_name')
+        receipe_description = data.get('receipe_description')
+
+
+        # Fetching from frontend and showing on cmd
+        # print(receipe_description)
+        # print(receipe_name)
+        # print(receipe_image)
+
+
+        # now storing it to backend
+        Receipe.objects.create(
+            receipe_image = receipe_image,
+            receipe_description = receipe_description,
+            receipe_name = receipe_name
+        )
+
+        return redirect('/receipes/')
+
+    queryset = Receipe.objects.all()
+    
+    if 'search' in request.GET:
+        queryset = queryset.filter(receipe_name__icontains=request.GET['search'])
+    context = {'receipes' : queryset}
+    return render(request, 'receipes.html', context)
+
+
+
+
+def update_receipe(request, id):
+    queryset = Receipe.objects.get(id=id)
+    
+    if request.method == "POST":
+        data = request.POST
+        receipe_image = request.FILES.get('receipe_image')
+        receipe_name = data.get('receipe_name')
+        receipe_description = data.get('receipe_description')
+
+       
+        queryset.receipe_name = receipe_name
+        queryset.receipe_description = receipe_description
+        
+        if receipe_image:
+            queryset.receipe_image = receipe_image
+
+        queryset.save()
+        return redirect('/receipes/')    
+
+    context = {'receipe' : queryset}
+    return render(request, 'update_receipes.html', context)
+
+
+
+
+def delete_receipe(request, id):
+    queryset = Receipe.objects.get(id=id)
+    queryset.delete()
+    return redirect('/receipes/')
+
+
+
+------------------------------------Lecture-12--------------------------------------
+			-- Advanced Authentication in Django --
+
+1) These are the following Changes to be made in the all this file 
+
+*****) register.html (similarly create login.py)
+
+{% extends "base.html" %}
+
+{% block start %}
+
+<div class="container mt-5 card p-3 shadow-lg">
+
+    <form class="col-6 mx-auto" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Register</h2>
+        <hr>
+
+        {% if messages %}
+    <div class="alert alert-primary" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>    
+    <ul class="messages">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">First Name</label>
+            <input type="text" class="form-control" name="first_name" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="last_name" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Username</label>
+              <input type="text" class="form-control" name="username" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+            </div>
+
+            <p>Already have an account <a href="/login/">Login</a></p>
+
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+         </form>
+
+</div>
+
+{% endblock %}
+
+
+
+
+*****) views.py (add this code)
+
+
+def register(request):
+    if request.method == "POST":
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        password = request.POST.get('password')    
+
+        user = User.objects.filter(username=username)
+
+        if user.exists():
+            messages.info(request, 'Username already exists')
+            return redirect('/register/')
+
+        user = User.objects.create_user(
+            first_name = first_name,
+            last_name = last_name,
+            username = username
+            )
+    
+
+        user.set_password(password)
+        user.save()
+
+        messages.info(request, 'Account created successfully')
+        return redirect('/register/')
+
+    return render(request, 'register.html')
+
+
+*****) urls.py (add this path)
+
+ path('login/', login_page , name="login_page"),
+    path('register/', register , name="register"),
+
+
+
+*****) models.py (after writing this make sure to perform migrations in cmd)
+
+from django.db import models
+from django.contrib.auth.models import User
+
+# Create your models here.
+
+class Receipe(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    receipe_name = models.CharField(max_length=100)
+    receipe_description = models.TextField()
+    receipe_image = models.ImageField(upload_to="receipe")
+
+
+------------------------------------Lecture-13--------------------------------------
+
+1) Whole Code for login(admin panel)
+
+*****) views.py
+
+from django.shortcuts import render, redirect
+from .models import *
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import views as login_required
+
+# Create your views here.
+
+login_required.login_url = '/login/'
+def receipes(request):
+    if request.method == "POST":
+        
+        data = request.POST
+        receipe_image = request.FILES.get('receipe_image')
+        receipe_name = data.get('receipe_name')
+        receipe_description = data.get('receipe_description')
+
+
+        # Fetching from frontend and showing on cmd
+        # print(receipe_description)
+        # print(receipe_name)
+        # print(receipe_image)
+
+
+        # now storing it to backend
+        Receipe.objects.create(
+            receipe_image = receipe_image,
+            receipe_description = receipe_description,
+            receipe_name = receipe_name
+        )
+
+        return redirect('/receipes/')
+
+    queryset = Receipe.objects.all()
+    
+    if 'search' in request.GET:
+        queryset = queryset.filter(receipe_name__icontains=request.GET['search'])
+    context = {'receipes' : queryset}
+    return render(request, 'receipes.html', context)
+
+
+
+
+def update_receipe(request, id):
+    queryset = Receipe.objects.get(id=id)
+    
+    if request.method == "POST":
+        data = request.POST
+        receipe_image = request.FILES.get('receipe_image')
+        receipe_name = data.get('receipe_name')
+        receipe_description = data.get('receipe_description')
+
+       
+        queryset.receipe_name = receipe_name
+        queryset.receipe_description = receipe_description
+        
+        if receipe_image:
+            queryset.receipe_image = receipe_image
+
+        queryset.save()
+        return redirect('/receipes/')    
+
+    context = {'receipe' : queryset}
+    return render(request, 'update_receipes.html', context)
+
+
+
+
+def delete_receipe(request, id):
+    queryset = Receipe.objects.get(id=id)
+    queryset.delete()
+    return redirect('/receipes/')
+
+
+
+
+def login_page(request):
+    
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')    
+
+        if not User.objects.filter(username=username).exists():
+            messages.error(request, 'Invaid Username')
+            return redirect('/login/')
+        
+        user = authenticate(username = username, password = password)
+
+        if user is None:
+            messages.error(request, 'Invalid Password')
+            return redirect('/login/')
+
+        else:
+            login(request, user)
+            return redirect('/receipes/')
+
+
+    return render(request, 'login.html')
+
+
+def logout_page(request):
+    logout(request)
+    return redirect('/login/')
+
+
+def register(request):
+    
+    if request.method == "POST":
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        password = request.POST.get('password')    
+
+        user = User.objects.filter(username=username)
+
+        if user.exists():
+            messages.info(request, 'Username already exists')
+            return redirect('/register/')
+
+        user = User.objects.create_user(
+            first_name = first_name,
+            last_name = last_name,
+            username = username
+            )
+    
+
+        user.set_password(password)
+        user.save()
+
+        messages.info(request, 'Account created successfully')
+        return redirect('/register/')
+
+    return render(request, 'register.html')
+
+
+
+*****) base.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{page}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<style>
+    table, th, td{
+        border: 1px solid black;
+    }
+</style>
+</head>
+
+
+<body>
+
+    <nav class="navbar dark p-3 bg-primary shadow-lg">
+        <div class="container-fluid">
+          <a class="navbar-brand">Navbar</a>
+          <form class="d-flex" role="search">
+            <!--Code for admin panel-->
+            {% if request.user.is_authenticated %}
+            <a href="/logout/" class="btn btn-success" type="submit">Logout</a>
+            {% else %}
+            <a href="/login/" class="btn btn-success" type="submit">Login</a>
+                {% endif %}
+        
+        </form>
+        </div>
+      </nav>
+
+    {% block start %}
+
+    {% endblock %}
+
+    <script>
+        console.log("Hey Django");
+    </script>
+
+</body>
+</html>
+
+
+
+*****) urls.py
+
+path('register/', register , name="register"),
+    path('logout/', logout_page , name="logout_page"),
+    
+
+*****) register.py (add this to view the name)
+
+{% extends "base.html" %}
+
+{% block start %}
+
+{{request.user}}
+{{request.user.first_name}}
+{{request.user.last_name}}
