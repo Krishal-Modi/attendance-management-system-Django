@@ -7,6 +7,8 @@ from django.contrib.auth.models import *
 from .forms import *
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 
@@ -64,14 +66,19 @@ def logout_page(request):
     return redirect('/login/')
 
 
-def delete_user(request, student_id):
-    student = Student.objects.get(id=student_id)
-    student.delete()
-    return redirect('/login/')
+
+def delete_user(request):
+    if request.method == 'POST':
+        user = request.user
+        if user.is_authenticated:
+            user.delete()
+            logout(request)  # Log the user out after deletion
+            messages.success(request, "Your account has been deleted successfully.")
+            return redirect('login_page')  # Redirect to login after account deletion
+
+    return redirect('home')  # Redirect to home if accessed directly
 
 
-
-# Department views
 
 
 
@@ -498,3 +505,538 @@ def eereport(request):
         'distinct_dates': distinct_dates,
         'student_attendance': student_attendance,
     })  
+
+
+
+# For CSV Download
+
+import csv
+
+
+# CSV Download For Computer Engineering Department
+
+def download_attendance_csv_ce(request):
+    students = Student.objects.all()
+    distinct_dates = StudentAttendance.objects.values_list('date', flat=True).distinct()
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="attendance_report.csv"'
+
+    # Create a CSV writer object
+    writer = csv.writer(response)
+
+    # Write the CSV header (columns)
+    header = ['Student ID', 'Student Name'] + [str(date) for date in distinct_dates]
+    writer.writerow(header)
+
+    # Write the attendance data for each student
+    for student in students:
+        row = [student.id, student.name]  # Start the row with student ID and name
+
+        # Add the attendance status for each date
+        for date in distinct_dates:
+            attendance = StudentAttendance.objects.filter(student=student, date=date).first()
+            status = attendance.status if attendance else 'Absent'
+            row.append(status)
+
+        # Write the row to the CSV
+        writer.writerow(row)
+
+    return response
+
+
+# CSV Download For Auronatical Engineering Department
+
+def download_attendance_csv_ae(request):
+    students = Studentae.objects.all()
+    distinct_dates = StudentAttendanceae.objects.values_list('date', flat=True).distinct()
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="attendance_report.csv"'
+
+    # Create a CSV writer object
+    writer = csv.writer(response)
+
+    # Write the CSV header (columns)
+    header = ['Student ID', 'Student Name'] + [str(date) for date in distinct_dates]
+    writer.writerow(header)
+
+    # Write the attendance data for each student
+    for student in students:
+        row = [student.id, student.name]  # Start the row with student ID and name
+
+        # Add the attendance status for each date
+        for date in distinct_dates:
+            attendance = StudentAttendanceae.objects.filter(student=student, date=date).first()
+            status = attendance.status if attendance else 'Absent'
+            row.append(status)
+
+        # Write the row to the CSV
+        writer.writerow(row)
+
+    return response
+
+
+# CSV Download For Civil Engineering Department
+
+def download_attendance_csv_cv(request):
+    students = Studentcv.objects.all()
+    distinct_dates = StudentAttendancecv.objects.values_list('date', flat=True).distinct()
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="attendance_report.csv"'
+
+    # Create a CSV writer object
+    writer = csv.writer(response)
+
+    # Write the CSV header (columns)
+    header = ['Student ID', 'Student Name'] + [str(date) for date in distinct_dates]
+    writer.writerow(header)
+
+    # Write the attendance data for each student
+    for student in students:
+        row = [student.id, student.name]  # Start the row with student ID and name
+
+        # Add the attendance status for each date
+        for date in distinct_dates:
+            attendance = StudentAttendancecv.objects.filter(student=student, date=date).first()
+            status = attendance.status if attendance else 'Absent'
+            row.append(status)
+
+        # Write the row to the CSV
+        writer.writerow(row)
+
+    return response
+
+
+# CSV Download For Electrical Engineering Department
+
+def download_attendance_csv_ee(request):
+    students = Studentee.objects.all()
+    distinct_dates = StudentAttendanceee.objects.values_list('date', flat=True).distinct()
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="attendance_report.csv"'
+
+    # Create a CSV writer object
+    writer = csv.writer(response)
+
+    # Write the CSV header (columns)
+    header = ['Student ID', 'Student Name'] + [str(date) for date in distinct_dates]
+    writer.writerow(header)
+
+    # Write the attendance data for each student
+    for student in students:
+        row = [student.id, student.name]  # Start the row with student ID and name
+
+        # Add the attendance status for each date
+        for date in distinct_dates:
+            attendance = StudentAttendanceee.objects.filter(student=student, date=date).first()
+            status = attendance.status if attendance else 'Absent'
+            row.append(status)
+
+        # Write the row to the CSV
+        writer.writerow(row)
+
+    return response
+
+
+# CSV Download For Information Technology Department
+
+def download_attendance_csv_it(request):
+    students = Studentit.objects.all()
+    distinct_dates = StudentAttendanceit.objects.values_list('date', flat=True).distinct()
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="attendance_report.csv"'
+
+    # Create a CSV writer object
+    writer = csv.writer(response)
+
+    # Write the CSV header (columns)
+    header = ['Student ID', 'Student Name'] + [str(date) for date in distinct_dates]
+    writer.writerow(header)
+
+    # Write the attendance data for each student
+    for student in students:
+        row = [student.id, student.name]  # Start the row with student ID and name
+
+        # Add the attendance status for each date
+        for date in distinct_dates:
+            attendance = StudentAttendanceit.objects.filter(student=student, date=date).first()
+            status = attendance.status if attendance else 'Absent'
+            row.append(status)
+
+        # Write the row to the CSV
+        writer.writerow(row)
+
+    return response
+
+
+# CSV Download For Mechanical Engineering Department
+
+def download_attendance_csv_me(request):
+    students = Studentme.objects.all()
+    distinct_dates = StudentAttendanceme.objects.values_list('date', flat=True).distinct()
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="attendance_report.csv"'
+
+    # Create a CSV writer object
+    writer = csv.writer(response)
+
+    # Write the CSV header (columns)
+    header = ['Student ID', 'Student Name'] + [str(date) for date in distinct_dates]
+    writer.writerow(header)
+
+    # Write the attendance data for each student
+    for student in students:
+        row = [student.id, student.name]  # Start the row with student ID and name
+
+        # Add the attendance status for each date
+        for date in distinct_dates:
+            attendance = StudentAttendanceme.objects.filter(student=student, date=date).first()
+            status = attendance.status if attendance else 'Absent'
+            row.append(status)
+
+        # Write the row to the CSV
+        writer.writerow(row)
+
+    return response
+
+
+############ PDF Download 
+
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from django.http import HttpResponse
+from reportlab.lib import colors
+
+# PDF Download For Computer Engineering Department
+
+
+def download_attendance_pdf_ce(request):
+    students = Student.objects.all()
+    distinct_dates = StudentAttendance.objects.values_list('date', flat=True).distinct()
+
+    # Create the HttpResponse object with the appropriate PDF header
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="attendance_report.pdf"'
+
+    # Create a SimpleDocTemplate with the PDF response as the destination
+    doc = SimpleDocTemplate(response, pagesize=letter)
+
+    # Data for the table
+    table_data = []
+    
+    # Add header row to the table
+    header = ["Student ID", "Student Name"] + [str(date) for date in distinct_dates]
+    table_data.append(header)
+
+    # Add rows for each student
+    for student in students:
+        row = [str(student.id), student.name]  # Start with ID and Name
+        
+        for date in distinct_dates:
+            attendance = StudentAttendance.objects.filter(student=student, date=date).first()
+            status = attendance.status if attendance else 'Absent'
+            row.append(status)  # Add status for each date
+            
+        table_data.append(row)
+
+    # Create the table
+    table = Table(table_data)
+
+    # Define the table style for borders, alignment, and colors
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header row background
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all cells
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Add grid lines
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),  # Set font
+        ('FONTSIZE', (0, 0), (-1, -1), 10),  # Set font size for all cells
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Add padding below header
+        ('TOPPADDING', (0, 0), (-1, -1), 5),  # Add padding to all rows
+    ]))
+
+    # Build the PDF with the table
+    elements = [table]
+    doc.build(elements)
+
+    return response
+
+
+# PDF Download For Information Technology Department
+
+
+def download_attendance_pdf_it(request):
+    students = Studentit.objects.all()
+    distinct_dates = StudentAttendanceit.objects.values_list('date', flat=True).distinct()
+
+    # Create the HttpResponse object with the appropriate PDF header
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="attendance_report.pdf"'
+
+    # Create a SimpleDocTemplate with the PDF response as the destination
+    doc = SimpleDocTemplate(response, pagesize=letter)
+
+    # Data for the table
+    table_data = []
+    
+    # Add header row to the table
+    header = ["Student ID", "Student Name"] + [str(date) for date in distinct_dates]
+    table_data.append(header)
+
+    # Add rows for each student
+    for student in students:
+        row = [str(student.id), student.name]  # Start with ID and Name
+        
+        for date in distinct_dates:
+            attendance = StudentAttendanceit.objects.filter(student=student, date=date).first()
+            status = attendance.status if attendance else 'Absent'
+            row.append(status)  # Add status for each date
+            
+        table_data.append(row)
+
+    # Create the table
+    table = Table(table_data)
+
+    # Define the table style for borders, alignment, and colors
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header row background
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all cells
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Add grid lines
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),  # Set font
+        ('FONTSIZE', (0, 0), (-1, -1), 10),  # Set font size for all cells
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Add padding below header
+        ('TOPPADDING', (0, 0), (-1, -1), 5),  # Add padding to all rows
+    ]))
+
+    # Build the PDF with the table
+    elements = [table]
+    doc.build(elements)
+
+    return response
+
+
+# PDF Download For Mechanical Engineering Department
+
+
+def download_attendance_pdf_me(request):
+    students = Studentme.objects.all()
+    distinct_dates = StudentAttendanceme.objects.values_list('date', flat=True).distinct()
+
+    # Create the HttpResponse object with the appropriate PDF header
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="attendance_report.pdf"'
+
+    # Create a SimpleDocTemplate with the PDF response as the destination
+    doc = SimpleDocTemplate(response, pagesize=letter)
+
+    # Data for the table
+    table_data = []
+    
+    # Add header row to the table
+    header = ["Student ID", "Student Name"] + [str(date) for date in distinct_dates]
+    table_data.append(header)
+
+    # Add rows for each student
+    for student in students:
+        row = [str(student.id), student.name]  # Start with ID and Name
+        
+        for date in distinct_dates:
+            attendance = StudentAttendanceme.objects.filter(student=student, date=date).first()
+            status = attendance.status if attendance else 'Absent'
+            row.append(status)  # Add status for each date
+            
+        table_data.append(row)
+
+    # Create the table
+    table = Table(table_data)
+
+    # Define the table style for borders, alignment, and colors
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header row background
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all cells
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Add grid lines
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),  # Set font
+        ('FONTSIZE', (0, 0), (-1, -1), 10),  # Set font size for all cells
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Add padding below header
+        ('TOPPADDING', (0, 0), (-1, -1), 5),  # Add padding to all rows
+    ]))
+
+    # Build the PDF with the table
+    elements = [table]
+    doc.build(elements)
+
+    return response
+
+
+# PDF Download For Civil Engineering Department
+
+
+def download_attendance_pdf_cv(request):
+    students = Studentcv.objects.all()
+    distinct_dates = StudentAttendancecv.objects.values_list('date', flat=True).distinct()
+
+    # Create the HttpResponse object with the appropriate PDF header
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="attendance_report.pdf"'
+
+    # Create a SimpleDocTemplate with the PDF response as the destination
+    doc = SimpleDocTemplate(response, pagesize=letter)
+
+    # Data for the table
+    table_data = []
+    
+    # Add header row to the table
+    header = ["Student ID", "Student Name"] + [str(date) for date in distinct_dates]
+    table_data.append(header)
+
+    # Add rows for each student
+    for student in students:
+        row = [str(student.id), student.name]  # Start with ID and Name
+        
+        for date in distinct_dates:
+            attendance = StudentAttendancecv.objects.filter(student=student, date=date).first()
+            status = attendance.status if attendance else 'Absent'
+            row.append(status)  # Add status for each date
+            
+        table_data.append(row)
+
+    # Create the table
+    table = Table(table_data)
+
+    # Define the table style for borders, alignment, and colors
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header row background
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all cells
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Add grid lines
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),  # Set font
+        ('FONTSIZE', (0, 0), (-1, -1), 10),  # Set font size for all cells
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Add padding below header
+        ('TOPPADDING', (0, 0), (-1, -1), 5),  # Add padding to all rows
+    ]))
+
+    # Build the PDF with the table
+    elements = [table]
+    doc.build(elements)
+
+    return response
+
+
+# PDF Download For Auronatical Engineering Department
+
+
+def download_attendance_pdf_ae(request):
+    students = Studentae.objects.all()
+    distinct_dates = StudentAttendanceae.objects.values_list('date', flat=True).distinct()
+
+    # Create the HttpResponse object with the appropriate PDF header
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="attendance_report.pdf"'
+
+    # Create a SimpleDocTemplate with the PDF response as the destination
+    doc = SimpleDocTemplate(response, pagesize=letter)
+
+    # Data for the table
+    table_data = []
+    
+    # Add header row to the table
+    header = ["Student ID", "Student Name"] + [str(date) for date in distinct_dates]
+    table_data.append(header)
+
+    # Add rows for each student
+    for student in students:
+        row = [str(student.id), student.name]  # Start with ID and Name
+        
+        for date in distinct_dates:
+            attendance = StudentAttendanceae.objects.filter(student=student, date=date).first()
+            status = attendance.status if attendance else 'Absent'
+            row.append(status)  # Add status for each date
+            
+        table_data.append(row)
+
+    # Create the table
+    table = Table(table_data)
+
+    # Define the table style for borders, alignment, and colors
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header row background
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all cells
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Add grid lines
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),  # Set font
+        ('FONTSIZE', (0, 0), (-1, -1), 10),  # Set font size for all cells
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Add padding below header
+        ('TOPPADDING', (0, 0), (-1, -1), 5),  # Add padding to all rows
+    ]))
+
+    # Build the PDF with the table
+    elements = [table]
+    doc.build(elements)
+
+    return response
+
+
+# PDF Download For Electrical Engineering Department
+
+
+def download_attendance_pdf_ee(request):
+    students = Studentee.objects.all()
+    distinct_dates = StudentAttendanceee.objects.values_list('date', flat=True).distinct()
+
+    # Create the HttpResponse object with the appropriate PDF header
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="attendance_report.pdf"'
+
+    # Create a SimpleDocTemplate with the PDF response as the destination
+    doc = SimpleDocTemplate(response, pagesize=letter)
+
+    # Data for the table
+    table_data = []
+    
+    # Add header row to the table
+    header = ["Student ID", "Student Name"] + [str(date) for date in distinct_dates]
+    table_data.append(header)
+
+    # Add rows for each student
+    for student in students:
+        row = [str(student.id), student.name]  # Start with ID and Name
+        
+        for date in distinct_dates:
+            attendance = StudentAttendanceee.objects.filter(student=student, date=date).first()
+            status = attendance.status if attendance else 'Absent'
+            row.append(status)  # Add status for each date
+            
+        table_data.append(row)
+
+    # Create the table
+    table = Table(table_data)
+
+    # Define the table style for borders, alignment, and colors
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Header row background
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Header text color
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all cells
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Add grid lines
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),  # Set font
+        ('FONTSIZE', (0, 0), (-1, -1), 10),  # Set font size for all cells
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Add padding below header
+        ('TOPPADDING', (0, 0), (-1, -1), 5),  # Add padding to all rows
+    ]))
+
+    # Build the PDF with the table
+    elements = [table]
+    doc.build(elements)
+
+    return response

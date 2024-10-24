@@ -24,76 +24,149 @@
     }
 
 
-    /*          Navbar            */
+/*          Navbar            */
 
+#nav {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  font-family: Georgia, serif;
+}
 
-    #nav {
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-      padding: 15px;
-      font-family: Georgia, serif;
-    }
+@media(min-width: 950px) {
+  #nav-items {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 400px;
+    gap: 30px;
+    padding: 0 10px;
+    font-size: 20px;
+    color: #f0f0f0;
+  }
+}
 
-    @media(min-width: 950px) {
-      #nav-items {
-        display: flex;
-        justify-content: space-between;
-        margin-left: 400px;
-        gap: 30px;
-        padding: 0 10px;
-        font-size: 20px;
-        color: #f0f0f0;
-      }
-    }
+@media(max-width: 950px) {
+  #nav-items {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 0;
+    padding: 0 10px;
+    font-size: 18px;
+    color: white;
+  }
 
-    @media(max-width: 950px) {
-      #nav-items {
-        display: flex;
-        justify-content: space-between;
-        margin-left: 0;
-        padding: 0 10px;
-        font-size: 18px;
-        color: white;
-      }
+}
 
-    }
+.navbar-transparent {
+  background-color: transparent !important;
+}
 
-    .navbar-transparent {
-      background-color: transparent !important;
-    }
+.navbar-transparent .dropdown-menu {
+  background-color: rgba(255, 255, 255, 0.9);
+}
 
-    .navbar-transparent .dropdown-menu {
-      background-color: rgba(255, 255, 255, 0.9);
-    }
+#nav-title {
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 25px;
+  font-family: Georgia, serif;
+}
 
-    #nav-title {
-      color: black;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 25px;
-      font-family: Georgia, serif;
-    }
+@media(max-width: 950px) {
+  #nav-title {
+    margin-left: 0;
+    font-size: 20px;
+  }
+}
 
-    @media(max-width: 950px) {
-      #nav-title {
-        margin-left: 0;
-        font-size: 20px;
-      }
-    }
+#nav-log {
+  color: black;
+  font-size: 20px;
+  text-decoration: none;
+  margin-top: 7px;
+}
 
-    #nav-log {
-      color: black;
-      font-size: 20px;
-      text-decoration: none;
-      margin-top: 7px;
-    }
+#nav-name {
+  color: black;
+  font-size: 20px;
+  text-decoration: none;
+  margin-top: 8px;
+}
 
-    #nav-name {
-      color: black;
-      font-size: 20px;
-      text-decoration: none;
-      margin-top: 8px;
-    }
+/* User Profile Dropdown */
+#user-profile .dropdown-menu {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-width: 250px;
+  padding: 10px 20px;
+}
 
+#user-profile .dropdown-item {
+  color: black;
+  font-size: 14px;
+  padding: 8px 10px;
+}
+
+#user-profile .dropdown-item.disabled {
+  color: gray;
+}
+
+#user-profile .dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+#user-profile .dropdown-item.text-danger {
+  color: red;
+}
+
+/* Style for the first, last name, email, and contact info */
+#user-profile .dropdown-item.disabled {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#user-profile .dropdown-item {
+  font-size: 14px;
+  padding: 5px 0;
+}
+
+/* Profile Menu Header */
+#user-profile .dropdown-item {
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+
+#user-profile .dropdown-item:not(.disabled):hover {
+  background-color: #e0e0e0;
+}
+
+/* Styling for the 'Delete my account' and 'Logout' */
+#user-profile .dropdown-item.logout,
+#user-profile .dropdown-item.delete {
+  color: #d9534f;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+}
+
+#user-profile .dropdown-item.logout:hover,
+#user-profile .dropdown-item.delete:hover {
+  background-color: #f2d7d7;
+  cursor: pointer;
+}
+
+#user-profile .dropdown-item.delete {
+  margin-top: 10px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+#user-profile .dropdown-item.logout {
+  margin-top: 10px;
+}
+    
 
     /*              Content               */
 
@@ -605,47 +678,54 @@
               <li><a class="dropdown-item" href="">Civil Engineering</a></li>
               <li><a class="dropdown-item" href="">Aeronautical Engineering</a></li>
               <li><a class="dropdown-item" href="">Electrical Engineering</a></li>
-
             </ul>
             {% endif %}
           </li>
 
           <li class="nav-item">
             <a class="nav-link text-dark" href="#contactForm">Contact</a>
+          </li>
 
           <li class="">
             <form class="" role="search">
               <!-- Code for admin panel -->
               {% if request.user.is_authenticated %}
-          <li>
-            <a class="nav-elements text-dark" id="nav-log" href="/logout/" type="submit">Logout</a>
-          </li>
-          {% else %}
-          <li>
-            <a class="nav-elements text-dark" id="nav-log" href="/login/" type="submit">Login</a>
-          </li>
-          {% endif %}
+              <li class="nav-item dropdown" id="user-profile">
+                <a class="nav-link dropdown-toggle text-dark" href="#" id="user-dropdown" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  Prof. {{ user.username }}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="user-dropdown">
+                  <!-- Display user's first name, last name, email, and contact -->
 
-          </form>
-          </li>
+                  <li>
+                    <img src="/static/images/user.png" alt="Profile Logo" class="rounded-circle" style = "display: block; margin: 8% auto;" width="50" height="50">
+                  </li>
 
-          {% if request.user.is_authenticated %}
-          <li id="nav-name">
-            <a class="user-info-text nav-elements text-dark" id="nav-name"
-              style="color: black; white-space: nowrap;">Prof. {{ user.username }}</a>
-          </li>
-          {% else %}
-          <li>
-            <a class="user-info-text nav-elements text-dark" id="nav-name"
-              style="color: black; white-space: nowrap;"></a>
-          </li>
+                  <li><a class="dropdown-item disabled" href="#">{{ user.first_name }} {{ user.last_name }}</a></li>
+                  <li><a class="dropdown-item disabled" href="#">{{ user.email }}</a></li>
+                  <li><a class="dropdown-item disabled" href="#">{{ user.profile.contact_number }}</a></li>
 
-          {% endif %}
-
+                  
+                  <!-- Logout option -->
+                  <li><a class="dropdown-item" href="/logout/">Logout</a></li>
+                  
+                  <!-- Delete account option -->
+                  {% csrf_token %}
+                  <li><a class="dropdown-item text-danger" href="/delete-account/">Delete my account</a></li>
+                </ul>
+              </li>
+              {% else %}
+              <li>
+                <a class="nav-elements text-dark" id="nav-log" href="/login/" type="submit">Login</a>
+              </li>
+              {% endif %}
+            </form>
+          </li>
         </ul>
       </div>
     </div>
-  </nav>
+  </nav>  
 
 
   <!--          Body            -->
@@ -854,7 +934,7 @@
         <div class="footer-column2">
           <ul class="foot-list">
             <li><a href="/index/">Dashboard</a></li>
-            <li><a href="/service/">Raise a Query</a></li>
+            <li><a href="#contactForm">Raise a Query</a></li>
             <li><a href="/about/">Privacy Policy</a></li>
             <li><a href="/contact/">Delete Account</a></li>
           </ul>

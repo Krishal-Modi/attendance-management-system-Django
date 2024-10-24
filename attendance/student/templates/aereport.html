@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -10,6 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link icon="favion" href="/static/images/university.png" rel="icon">
     <title>Aeronautical Engineering</title>
 
@@ -29,75 +31,145 @@
 
 
         #nav {
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            padding: 15px;
-            font-family: Georgia, serif;
-        }
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  font-family: Georgia, serif;
+}
 
-        @media(min-width: 950px) {
-            #nav-items {
-                display: flex;
-                justify-content: space-between;
-                margin-left: 400px;
-                gap: 30px;
-                padding: 0 10px;
-                font-size: 20px;
-                color: #f0f0f0;
-                animation: rightSideAni 1s ease forwards;
-                animation-delay: calc(.2s * var(--rightSideAni));
-            }
-        }
+@media(min-width: 950px) {
+  #nav-items {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 400px;
+    gap: 30px;
+    padding: 0 10px;
+    font-size: 20px;
+    color: #f0f0f0;
+  }
+}
 
-        @media(max-width: 950px) {
-            #nav-items {
-                display: flex;
-                justify-content: space-between;
-                margin-left: 0;
-                padding: 0 10px;
-                font-size: 18px;
-                color: white;
-            }
-        }
+@media(max-width: 950px) {
+  #nav-items {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 0;
+    padding: 0 10px;
+    font-size: 18px;
+    color: white;
+  }
 
-        .navbar-transparent {
-            background-color: transparent !important;
-        }
+}
 
-        .navbar-transparent .dropdown-menu {
-            background-color: rgba(255, 255, 255, 0.9);
-        }
+.navbar-transparent {
+  background-color: transparent !important;
+}
 
-        #nav-title {
-            color: black;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 25px;
-            font-family: Georgia, serif;
-            margin-left: 20px;
-            animation: leftani 1s ease forwards;
-            animation-delay: calc(.2s * var(--leftani));
-        }
+.navbar-transparent .dropdown-menu {
+  background-color: rgba(255, 255, 255, 0.9);
+}
 
-        @media(max-width: 950px) {
-            #nav-title {
-                margin-left: 0;
-                font-size: 20px;
-            }
-        }
+#nav-title {
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 25px;
+  font-family: Georgia, serif;
+}
 
-        #nav-log {
-            color: black;
-            font-size: 20px;
-            text-decoration: none;
-            margin-top: 7px;
-        }
+@media(max-width: 950px) {
+  #nav-title {
+    margin-left: 0;
+    font-size: 20px;
+  }
+}
 
-        #nav-name {
-            color: black;
-            font-size: 20px;
-            text-decoration: none;
-            margin-top: 8px;
-        }
+#nav-log {
+  color: black;
+  font-size: 20px;
+  text-decoration: none;
+  margin-top: 7px;
+}
+
+#nav-name {
+  color: black;
+  font-size: 20px;
+  text-decoration: none;
+  margin-top: 8px;
+}
+
+/* User Profile Dropdown */
+#user-profile .dropdown-menu {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  min-width: 250px;
+  padding: 10px 20px;
+}
+
+#user-profile .dropdown-item {
+  color: black;
+  font-size: 14px;
+  padding: 8px 10px;
+}
+
+#user-profile .dropdown-item.disabled {
+  color: gray;
+}
+
+#user-profile .dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+#user-profile .dropdown-item.text-danger {
+  color: red;
+}
+
+/* Style for the first, last name, email, and contact info */
+#user-profile .dropdown-item.disabled {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#user-profile .dropdown-item {
+  font-size: 14px;
+  padding: 5px 0;
+}
+
+/* Profile Menu Header */
+#user-profile .dropdown-item {
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+
+#user-profile .dropdown-item:not(.disabled):hover {
+  background-color: #e0e0e0;
+}
+
+/* Styling for the 'Delete my account' and 'Logout' */
+#user-profile .dropdown-item.logout,
+#user-profile .dropdown-item.delete {
+  color: #d9534f;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+}
+
+#user-profile .dropdown-item.logout:hover,
+#user-profile .dropdown-item.delete:hover {
+  background-color: #f2d7d7;
+  cursor: pointer;
+}
+
+#user-profile .dropdown-item.delete {
+  margin-top: 10px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+#user-profile .dropdown-item.logout {
+  margin-top: 10px;
+}
 
 
         /*                 Report                   */
@@ -166,29 +238,173 @@
             margin: 0% 5% 0% 5%;
         }
 
-        .submit {
-            width: 30%;
-            height: 40px;
-            border-radius: 5px;
-            border: 1px solid black;
-            padding: 5px;
+        .buttons {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically by default */
+    gap: 10px; /* Space between buttons */
+    margin: 5% auto; /* Center the buttons */
+    width: 70%; /* Optional: limit width for larger screens */
+}
+
+.buttons div {
+    flex: 1; /* Allow buttons to grow equally */
+}
+
+button {
+    width: 100%; /* Full width for buttons */
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+    .buttons {
+        flex-direction: row; /* Align buttons in a row on larger screens */
+        justify-content: space-between; /* Space buttons evenly */
+    }
+
+    button {
+        flex: 1; /* Allow buttons to take equal space in the row */
+        margin: 0 5px;
+    }
+}
+
+
+
+
+        
+
+        /*                Footer                */
+
+
+        footer {
             background-color: #007bff;
-            color: white;
-            position: relative;
+            color: #ffff;
+            padding: 20px 0;
+            font-family: 'Roboto', sans-serif;
             font-size: 20px;
-            margin: 0% 35% 0% 35%;
+            position: fixed;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            margin: 6% 0% 0% 0%;
+            padding: 0px 0px 0px 0px;
+            text-align: center;
+            position: relative;
+            top: 20px;
+            font-weight: bold;
+            font-size: 20px;
         }
 
-        .home {
-            margin: 3% 35% 3% 35%;
+        @media (max-width: 700px) {
+            footer {
+                padding: 20px 0;
+                font-size: 15px;
+            }
         }
 
-        .home>button>a {
+        .footer-columns {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding-bottom: 0;
+        }
+
+        .footer-column1 {
+            flex: 1;
+            margin: 1%;
+            margin-top: 4%;
+            margin-left: 14%;
+        }
+
+        .footer-column1>p {
+            font-size: 30px;
+            padding: 0px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 2);
+            margin: 20px 0px 0px 0px;
+        }
+
+        .footer-column1>h3 {
+            font-size: 30px;
+            padding: 0px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 2);
+            margin: 0px;
+        }
+
+        .footer-column1>p {
+            margin: 4%;
+            font-size: 20px;
+            padding: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 2);
+        }
+
+        .footer-column2 {
+            flex: 0.6;
+            margin: 1%;
+        }
+
+        .footer-column2>ul {
+            list-style-type: none;
+            padding: 0px;
+            margin: 0px
+        }
+
+        .footer-column2>ul>li {
+            margin: 4.6%;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 2);
+        }
+
+        .footer-column2>ul>li>a {
+            color: #ffff;
             text-decoration: none;
-            color: white;
+            font-size: 22px;
         }
 
+        .footer-column2>ul>li>a:hover {
+            color: #C7C8CC;
+        }
 
+        .footer-column3 {
+            flex: 1;
+            margin: 1%;
+            margin-top: 4%;
+            margin-right: 14%;
+        }
+
+        .footer-column3>p {
+            font-size: 25px;
+            margin: 0% 3% 0% 3%;
+            margin-bottom: 4%;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 2);
+        }
+
+        .footer-column3>p>a {
+            color: #ffff;
+            text-decoration: none;
+            font-size: 22px;
+        }
+
+        @media (max-width: 700px) {
+            .footer-column1,
+            .footer-column2,
+            .footer-column3 {
+                flex: 100%;
+                margin: 1% 0;
+            }
+
+            .footer-column1 {
+                margin-left: 0;
+            }
+
+            .footer-column2>ul>li>a:hover {
+                color: #C7C8CC;
+            }
+        }
+
+        
     </style>
 
     {% load custom_filter %}
@@ -199,99 +415,112 @@
     <!--                    Navbar                  -->
 
 
-  <nav class="navbar navbar-expand-lg navbar-transparent bg-body-tertiary" id="nav">
-    <div class="container-fluid">
-      <a class="navbar-brand" id="nav-title" href="/index/">Attendance Management System</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul id="nav-items" class="navbar-nav">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              Report
-            </a>
-            {% if request.user.is_authenticated %}
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/cereport/">Computer Engineering</a></li>
-              <li><a class="dropdown-item" href="/itreport/">Information Technology</a></li>
-              <li><a class="dropdown-item" href="/mereport/">Mechanical Engineering</a></li>
-              <li><a class="dropdown-item" href="/cvreport/">Civil Engineering</a></li>
-              <li><a class="dropdown-item" href="/aereport/">Aeronautical Engineering</a></li>
-              <li><a class="dropdown-item" href="/eereport/">Electrical Engineering</a></li>
-            </ul>
-            {% else %}
-            <ul class="dropdown-menu" onclick="loginFirst()">
-              <li><a class="dropdown-item" href="">Computer Engineering</a></li>
-              <li><a class="dropdown-item" href="">Information Technology</a></li>
-              <li><a class="dropdown-item" href="">Mechanical Engineering</a></li>
-              <li><a class="dropdown-item" href="">Civil Engineering</a></li>
-              <li><a class="dropdown-item" href="">Aeronautical Engineering</a></li>
-              <li><a class="dropdown-item" href="">Electrical Engineering</a></li>
-            </ul>
-            {% endif %}
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              Mark
-            </a>
-            {% if request.user.is_authenticated %}
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/ceone/">Computer Engineering</a></li>
-              <li><a class="dropdown-item" href="/itmark/">Information Technology</a></li>
-              <li><a class="dropdown-item" href="/memark/">Mechanical Engineering</a></li>
-              <li><a class="dropdown-item" href="/cvmark/">Civil Engineering</a></li>
-              <li><a class="dropdown-item" href="/aemark/">Aeronautical Engineering</a></li>
-              <li><a class="dropdown-item" href="/eemark/">Electrical Engineering</a></li>
-            </ul>
-            {% else %}
-            <ul class="dropdown-menu" onclick="loginFirst()">
-              <li><a class="dropdown-item" href="">Computer Engineering</a></li>
-              <li><a class="dropdown-item" href="">Information Technology</a></li>
-              <li><a class="dropdown-item" href="">Mechanical Engineering</a></li>
-              <li><a class="dropdown-item" href="">Civil Engineering</a></li>
-              <li><a class="dropdown-item" href="">Aeronautical Engineering</a></li>
-              <li><a class="dropdown-item" href="">Electrical Engineering</a></li>
-            </ul>
-            {% endif %}
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/index/#contactForm">Contact</a>
-          <li class="">
-            <form class="" role="search">
-              <!-- Code for admin panel -->
+    {% csrf_token %}
+    <nav class="navbar navbar-expand-lg navbar-transparent bg-body-tertiary" id="nav">
+      <div class="container-fluid">
+        <a class="navbar-brand" id="nav-title" href="/index/">Attendance Management System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul id="nav-items" class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Report
+              </a>
               {% if request.user.is_authenticated %}
-          <li>
-            <a class="nav-elements text-dark" id="nav-log" href="/logout/" type="submit">Logout</a>
-          </li>
-          {% else %}
-          <li>
-            <a class="nav-elements text-dark" id="nav-log" href="/login/" type="submit">Login</a>
-          </li>
-          {% endif %}
-
-          </form>
-          </li>
-          {% if request.user.is_authenticated %}
-          <li id="nav-name">
-            <a class="user-info-text nav-elements text-dark" id="nav-name"
-              style="color: black; white-space: nowrap;">Prof. {{ user.username }}</a>
-          </li>
-          {% else %}
-          <li>
-            <a class="user-info-text nav-elements text-dark" id="nav-name"
-              style="color: black; white-space: nowrap;"></a>
-          </li>
-          {% endif %}
-        </ul>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/cereport/">Computer Engineering</a></li>
+                <li><a class="dropdown-item" href="/itreport/">Information Technology</a></li>
+                <li><a class="dropdown-item" href="/mereport/">Mechanical Engineering</a></li>
+                <li><a class="dropdown-item" href="/cvreport/">Civil Engineering</a></li>
+                <li><a class="dropdown-item" href="/aereport/">Aeronautical Engineering</a></li>
+                <li><a class="dropdown-item" href="/eereport/">Electrical Engineering</a></li>
+              </ul>
+              {% else %}
+              <ul class="dropdown-menu" onclick="loginFirst()">
+                <li><a class="dropdown-item" href="">Computer Engineering</a></li>
+                <li><a class="dropdown-item" href="">Information Technology</a></li>
+                <li><a class="dropdown-item" href="">Mechanical Engineering</a></li>
+                <li><a class="dropdown-item" href="">Civil Engineering</a></li>
+                <li><a class="dropdown-item" href="">Aeronautical Engineering</a></li>
+                <li><a class="dropdown-item" href="">Electrical Engineering</a></li>
+              </ul>
+              {% endif %}
+            </li>
+  
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Mark
+              </a>
+              {% if request.user.is_authenticated %}
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/ceone/">Computer Engineering</a></li>
+                <li><a class="dropdown-item" href="/itmark/">Information Technology</a></li>
+                <li><a class="dropdown-item" href="/memark/">Mechanical Engineering</a></li>
+                <li><a class="dropdown-item" href="/cvmark/">Civil Engineering</a></li>
+                <li><a class="dropdown-item" href="/aemark/">Aeronautical Engineering</a></li>
+                <li><a class="dropdown-item" href="/eemark/">Electrical Engineering</a></li>
+              </ul>
+              {% else %}
+              <ul class="dropdown-menu" onclick="loginFirst()">
+                <li><a class="dropdown-item" href="">Computer Engineering</a></li>
+                <li><a class="dropdown-item" href="">Information Technology</a></li>
+                <li><a class="dropdown-item" href="">Mechanical Engineering</a></li>
+                <li><a class="dropdown-item" href="">Civil Engineering</a></li>
+                <li><a class="dropdown-item" href="">Aeronautical Engineering</a></li>
+                <li><a class="dropdown-item" href="">Electrical Engineering</a></li>
+              </ul>
+              {% endif %}
+            </li>
+  
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="/index/#contactForm">Contact</a>
+            </li>
+  
+            <li class="">
+              <form class="" role="search">
+                <!-- Code for admin panel -->
+                {% if request.user.is_authenticated %}
+                <li class="nav-item dropdown" id="user-profile">
+                  <a class="nav-link dropdown-toggle text-dark" href="#" id="user-dropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Prof. {{ user.username }}
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="user-dropdown">
+                    <!-- Display user's first name, last name, email, and contact -->
+  
+                    <li>
+                      <img src="/static/images/user.png" alt="Profile Logo" class="rounded-circle" style = "display: block; margin: 8% auto;" width="50" height="50">
+                    </li>
+  
+                    <li><a class="dropdown-item disabled" href="#">{{ user.first_name }} {{ user.last_name }}</a></li>
+                    <li><a class="dropdown-item disabled" href="#">{{ user.email }}</a></li>
+                    <li><a class="dropdown-item disabled" href="#">{{ user.profile.contact_number }}</a></li>
+  
+                    
+                    <!-- Logout option -->
+                    <li><a class="dropdown-item" href="/logout/">Logout</a></li>
+                    
+                    <!-- Delete account option -->
+                    <li><a class="dropdown-item text-danger" href="/delete-account/">Delete my account</a></li>
+                  </ul>
+                </li>
+                {% else %}
+                <li>
+                  <a class="nav-elements text-dark" id="nav-log" href="/login/" type="submit">Login</a>
+                </li>
+                {% endif %}
+              </form>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
-
+    </nav>  
     <!--                Body                  -->
 
     {% load custom_filter %}
@@ -337,11 +566,71 @@
         </table>
     </div>
     
-    <div class="home">
-        <button><a href="/index/">Home</a></button>
-    </div>
 
+    <div class="buttons">
+      <div class="home">
+          <button><a style="color:white; text-decoration: none;" href="/index/">Home</a></button>
+      </div>
+  
+      <div class="download_csv_div" style="margin-bottom: 2%;">
+          <button><a href="{% url 'download_attendance_csv_ae' %}" style="color: white; text-decoration: none;">Download The Report as CSV File</a></button>
+      </div>
+  
+      <div class="download_pdf_div">
+          <button><a href="{% url 'download_attendance_pdf_ae' %}" style="color: white; text-decoration: none;">Download The Report as PDF File</a></button>
+      </div>
+  </div>
     
+    <script href="/static/js/mark.js">
+
+
+        window.onload = function () {
+          var presentRadios = document.querySelectorAll('input[type="radio"][value="present"]');
+          var absentRadios = document.querySelectorAll('input[type="radio"][value="absent"]');
+          var presentCountDisplay = document.getElementById('presentNumber');
+          var attendance = {}; // To keep track of the attendance status of each student
+    
+          var presentCount = 0;
+          // Initialize attendance object
+          presentRadios.forEach(function (radio) {
+            var studentId = radio.name.split('_')[1];
+            attendance[studentId] = "absent";
+          });
+    
+          // Event listeners for "Present" radio buttons
+          presentRadios.forEach(function (radio) {
+            var studentId = radio.name.split('_')[1];
+    
+            radio.addEventListener('change', function () {
+              if (this.checked && attendance[studentId] === "absent") {
+                presentCount++;
+                attendance[studentId] = "present";
+              } else if (!this.checked && attendance[studentId] === "present") {
+                presentCount--;
+                attendance[studentId] = "absent";
+              }
+              presentCountDisplay.value = presentCount >= 0 ? presentCount : 0;
+            });
+          });
+    
+          // Event listeners for "Absent" radio buttons
+          absentRadios.forEach(function (radio) {
+            var studentId = radio.name.split('_')[1];
+    
+            radio.addEventListener('change', function () {
+              if (this.checked && attendance[studentId] === "present") {
+                presentCount--;
+                attendance[studentId] = "absent";
+              } else if (!this.checked && attendance[studentId] === "absent") {
+                presentCount++;
+                attendance[studentId] = "present";
+              }
+              presentCountDisplay.value = presentCount >= 0 ? presentCount : 0;
+            });
+          });
+        };
+    
+      </script>
 
 </body>
 
