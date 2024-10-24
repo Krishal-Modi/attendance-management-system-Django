@@ -34,7 +34,7 @@ urlpatterns = [
 
     path('register/' ,register ,name="register"),
 
-#    path('delete-user/<int:user_id>/', delete_user, name='delete_user'),
+    path('delete-account/', delete_user, name='delete_account'),  
 
     path('logout/', logout_page, name='logout_page'),
     
@@ -67,5 +67,23 @@ urlpatterns = [
     path('cvreport/', cvreport, name='cvreport'),
     path('aereport/', aereport, name='aereport'),
     path('eereport/', eereport, name='eereport'),
+    
+
+    # Download Attendance CSV
+
+    path('download_attendance_csv_ce/', download_attendance_csv_ce, name='download_attendance_csv_ce'),
+    path('download_attendance_csv_ae/', download_attendance_csv_ae, name='download_attendance_csv_ae'),
+    path('download_attendance_csv_me/', download_attendance_csv_me, name='download_attendance_csv_me'),
+    path('download_attendance_csv_cv/', download_attendance_csv_cv, name='download_attendance_csv_cv'),
+    path('download_attendance_csv_it/', download_attendance_csv_it, name='download_attendance_csv_it'),
+    path('download_attendance_csv_ee/', download_attendance_csv_ee, name='download_attendance_csv_ee'),
+
+    path('download_attendance_pdf_ce/', download_attendance_pdf_ce, name='download_attendance_pdf_ce'),
+    path('download_attendance_pdf_ee/', download_attendance_pdf_ee, name='download_attendance_pdf_ee'),
+    path('download_attendance_pdf_ae/', download_attendance_pdf_ae, name='download_attendance_pdf_ae'),
+    path('download_attendance_pdf_cv/', download_attendance_pdf_cv, name='download_attendance_pdf_cv'),
+    path('download_attendance_pdf_me/', download_attendance_pdf_me, name='download_attendance_pdf_me'),
+    path('download_attendance_pdf_it/', download_attendance_pdf_it, name='download_attendance_pdf_it'),
+
     
 ]
